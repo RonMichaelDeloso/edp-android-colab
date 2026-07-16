@@ -161,9 +161,17 @@ fun ContactItem(icon: ImageVector, text: String) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Light Mode")
 @Composable
 fun ProfilePreview() {
+    MyApplicationTheme {
+        ProfileScreen()
+    }
+}
+
+@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES, name = "Dark Mode")
+@Composable
+fun ProfileDarkPreview() {
     MyApplicationTheme {
         ProfileScreen()
     }
