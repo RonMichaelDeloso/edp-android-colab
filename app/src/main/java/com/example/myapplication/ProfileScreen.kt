@@ -101,7 +101,7 @@ fun ProfileScreen() {
                     InfoRow(
                         Icons.Default.School, "School: ","Liceo de Cagayan University",
                     )
-                    InfoRow(Icons.Default.Class, "Course & Sectioin: ","BSIT3-1", )
+                    InfoRow(Icons.Default.Class, "Course & Section: ","BSIT3-1", )
                     InfoRow(Icons.Default.Phone, "Phone Number: ","09275262976")
                     InfoRow(Icons.Default.Email, "Email: ","rdeloso12002@liceo.edu.ph")
                 } }
