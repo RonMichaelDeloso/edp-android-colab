@@ -64,7 +64,7 @@ fun ReactiveScreen(){
         OutlinedTextField(
             value = name,
             onValueChange = {name = it},
-            label = { Text("Enter your name")
+            label = { Text("Enter your name")}
         )
         Spacer(Modifier.height(32.dp))
 
