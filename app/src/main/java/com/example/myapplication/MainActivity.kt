@@ -18,7 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.navigation.toRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,39 +30,27 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold( modifier = Modifier.fillMaxSize() ) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                val navController = rememberNavController()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = Home,
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+                        composable<Home> {
+                            HomeScreen(onShowGreeting = { typedName ->
+                                // pass the name by creating a Greeting route object
+                                navController.navigate(Greeting(userName = typedName))
+                            })
+                        }
+                        composable<Greeting> { backStackEntry ->
+                            // rebuild the typed Greeting object on this screen
+                            val greeting: Greeting = backStackEntry.toRoute()
+                            GreetingScreen(userName = greeting.userName)
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.onSurfaceVariant),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-        text = "Hello $name!",
-            textAlign = TextAlign.Center,
-        modifier = modifier.fillMaxWidth()
-    )
-    }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
     }
 }
