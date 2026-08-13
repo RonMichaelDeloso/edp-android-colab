@@ -8,16 +8,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
 fun ProfileForm(state: ProfileUiState, viewModel: ProfileViewModel) {
@@ -82,14 +102,62 @@ fun ProfileForm(state: ProfileUiState, viewModel: ProfileViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TextText("• $skill", modifier = Modifier.weight(1f))
+                Text("• $skill", modifier = Modifier.weight(1f))
                 Text("Remove")
             }
+        }
+        Spacer(Modifier.height(20.dp))
+        Button(
+            onClick = { viewModel.showPreview() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Preview")
+        }
     }
 }
-    Spacer(Modifier.height(20.dp))
-    Button(onClick = { viewModel.showPreview() },
-        modifier = Modifier.fillMaxWidth()) {
-        Text("Preview")
+
+@Composable
+fun ProfilePreview(state: ProfileUiState, onBack: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Text("Profile Preview", fontSize = 24.sp,
+            fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(12.dp))
+
+        Text("Name: ${state.name}")
+        Text("Name: ${state.email}")
+        Text("Name: ${state.contactNumber}")
+        Text("Name: ${state.address}")
+        Text("Name: ${state.username}")
+
+        Spacer(Modifier.height(8.dp))
+        Text("Skills:", fontWeight = FontWeight.Bold)
+        if (state.skills.isEmpty()) {
+            Text("No skills added yet.")
+        } else {
+            state.skills.forEach { skill -> Text("• $skill") }
+        }
+
+        Spacer(Modifier.height(20.dp))
+        OutlinedButton(onClick = onBack) {
+            Text("Back to edit")
+        }
     }
 }
+
+@Composable
+fun ProfileScreen(viewModel: ProfileViewModel = viewModel()) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (state.isPreview) {
+        ProfilePreview(state = state, onBack = { viewModel.backToEdit() })
+    } else {
+        ProfileForm(state = state, viewModel = viewModel)
+    }
+}
+
+
