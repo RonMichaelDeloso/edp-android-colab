@@ -27,30 +27,5 @@ import androidx.navigation.toRoute
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplicationTheme {
-                val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = Home,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable<Home> {
-                            HomeScreen(onShowGreeting = { typedName ->
-                                // pass the name by creating a Greeting route object
-                                navController.navigate(Greeting(userName = typedName))
-                            })
-                        }
-                        composable<Greeting> { backStackEntry ->
-                            // rebuild the typed Greeting object on this screen
-                            val greeting: Greeting = backStackEntry.toRoute()
-                            GreetingScreen(userName = greeting.userName)
-                        }
-                    }
-                }
-            }
-        }
     }
 }
