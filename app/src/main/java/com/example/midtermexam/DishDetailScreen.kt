@@ -38,27 +38,54 @@ fun DishDetailScreen(
         Spacer(Modifier.height(12.dp))
 
         // TODO 9  (6 pts) -- CREATE
-        // Build a Row containing:
-        //   * an OutlinedTextField bound to newStep  (value = ..., onValueChange = ...)
-        //     with label { Text("New step") } and Modifier.weight(1f)
-        //   * a Button whose onClick calls viewModel.addRecipe(dishId, newStep)
-        //     and then sets newStep = ""
-        // Copy the "CREATE (given)" Row from DishListScreen and rename things.
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = newStep,
+                onValueChange = { newStep = it },
+                label = { Text("New step") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(Modifier.width(8.dp))
+            Button(onClick = {
+                viewModel.addRecipe(dishId, newStep)
+                newStep = ""
+            }) {
+                Text("Add")
+            }
+        }
 
         Spacer(Modifier.height(16.dp))
 
         // TODO 10  (10 pts) -- READ + DELETE
-        // Build a LazyColumn that lists dish.recipes.
-        // Use: itemsIndexed(items = dish.recipes, key = { _, r -> r.id }) { index, recipe -> ... }
-        // Each row must show:
-        //   * the step number and text, e.g. Text("${index + 1}. ${recipe.text}")
-        //     inside Modifier.weight(1f)
-        //   * a TextButton "Edit"   -> stepBeingEdited = recipe
-        //   * a TextButton "Delete" -> viewModel.deleteRecipe(dishId, recipe.id)
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            itemsIndexed(items = dish.recipes, key = { _, recipe -> recipe.id }) { index, recipe ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "${index + 1}. ${recipe.text}",
+                        modifier = Modifier.weight(1f)
+                    )
+                    TextButton(onClick = { stepBeingEdited = recipe }) { Text("Edit") }
+                    TextButton(onClick = {
+                        viewModel.deleteRecipe(dishId, recipe.id)
+                    }) { Text("Delete") }
+                }
+            }
+        }
     }
 
     // TODO 11  (4 pts) -- UPDATE
-    // Copy the dialog block from DishListScreen. When the user taps Save,
-    // call viewModel.updateRecipe(dishId, <the edited step's id>, newText)
-    // and then set stepBeingEdited = null.
+    val editingStep = stepBeingEdited
+    if (editingStep != null) {
+        EditDialog(
+            title = "Edit step",
+            initialText = editingStep.text,
+            onConfirm = { newText ->
+                viewModel.updateRecipe(dishId, editingStep.id, newText)
+                stepBeingEdited = null
+            },
+            onDismiss = { stepBeingEdited = null }
+        )
+    }
 }
