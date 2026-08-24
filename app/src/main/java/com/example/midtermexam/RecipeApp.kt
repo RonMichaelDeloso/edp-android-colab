@@ -20,10 +20,10 @@ fun RecipeApp() {
 
     NavHost(
         navController = navController,
-        startDestination = "dish_list"          // Screen 1 is the start destination
+        startDestination = "dish_list"
     ) {
 
-        // ----- SCREEN 1 -----
+
         composable(route = "dish_list") {
             DishListScreen(
                 viewModel = viewModel,
@@ -34,7 +34,7 @@ fun RecipeApp() {
             )
         }
 
-        // ----- SCREEN 2 -----  (GIVEN, do not change)
+
         composable(
             route = "dish_detail/{dishId}",
             arguments = listOf(navArgument("dishId") { type = NavType.IntType })

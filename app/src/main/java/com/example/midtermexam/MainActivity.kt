@@ -8,9 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -23,4 +20,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
