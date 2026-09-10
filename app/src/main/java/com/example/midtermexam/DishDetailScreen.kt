@@ -17,7 +17,6 @@ fun DishDetailScreen(
     viewModel: DishViewModel,
     onBack: () -> Unit
 ) {
-    // GIVEN: find the dish this screen is about.
     val dishes by viewModel.dishes.collectAsStateWithLifecycle()
     val dish = dishes.find { it.id == dishId }
 
@@ -26,7 +25,6 @@ fun DishDetailScreen(
         return
     }
 
-    // GIVEN: local UI state.
     var newStep by remember { mutableStateOf("") }
     var stepBeingEdited by remember { mutableStateOf<Recipe?>(null) }
 
@@ -37,7 +35,6 @@ fun DishDetailScreen(
         Text("Recipe steps", style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(12.dp))
 
-        // TODO 9  (6 pts) -- CREATE
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
@@ -58,7 +55,6 @@ fun DishDetailScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        // TODO 10  (10 pts) -- READ + DELETE
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             itemsIndexed(items = dish.recipes, key = { _, recipe -> recipe.id }) { index, recipe ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -75,7 +71,6 @@ fun DishDetailScreen(
         }
     }
 
-    // TODO 11  (4 pts) -- UPDATE
     val editingStep = stepBeingEdited
     if (editingStep != null) {
         EditDialog(

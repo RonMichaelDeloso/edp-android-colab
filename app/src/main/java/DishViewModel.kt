@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class DishViewModel : ViewModel() {
 
-    // The ONE source of truth for the whole app.
-    // _dishes is private and writable; dishes is public and read-only.
+
     private val _dishes = MutableStateFlow(
         listOf(
             Dish(id = 1, name = "Chicken Adobo"),
@@ -16,13 +15,7 @@ class DishViewModel : ViewModel() {
         )
     )
     val dishes: StateFlow<List<Dish>> = _dishes.asStateFlow()
-
-    // Used to hand out a fresh, unique id every time we create something.
     private var nextId = 100
-
-    // ---------------- DISH CRUD ----------------
-
-    // CREATE -- GIVEN. Study this pattern.
     fun addDish(name: String) {
         if (name.isBlank()) return
         val newDish = Dish(id = nextId++, name = name.trim())
@@ -36,12 +29,10 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 2: Delete the dish
     fun deleteDish(dishId: Int) {
         _dishes.value = _dishes.value.filter { it.id != dishId }
     }
 
-    // TODO 3: Add recipe to a dish
     fun addRecipe(dishId: Int, text: String) {
         if (text.isBlank()) return
         _dishes.value = _dishes.value.map { dish ->
@@ -52,7 +43,6 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 4: Update recipe text
     fun updateRecipe(dishId: Int, recipeId: Int, newText: String) {
         if (newText.isBlank()) return
         _dishes.value = _dishes.value.map { dish ->
@@ -66,7 +56,6 @@ class DishViewModel : ViewModel() {
         }
     }
 
-    // TODO 5: Delete recipe from a dish
     fun deleteRecipe(dishId: Int, recipeId: Int) {
         _dishes.value = _dishes.value.map { dish ->
             if (dish.id == dishId) {

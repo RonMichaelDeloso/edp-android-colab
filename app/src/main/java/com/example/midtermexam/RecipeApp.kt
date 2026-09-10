@@ -13,9 +13,6 @@ import androidx.navigation.navArgument
 fun RecipeApp() {
 
     val navController = rememberNavController()
-
-    // ONE ViewModel created here and shared by BOTH screens,
-    // so edits on Screen 2 are visible on Screen 1.
     val viewModel: DishViewModel = viewModel()
 
     NavHost(
@@ -28,7 +25,6 @@ fun RecipeApp() {
             DishListScreen(
                 viewModel = viewModel,
                 onDishClick = { dishId ->
-                    // TODO 6  (15 pts): navigate to the detail screen for this dish.
                     navController.navigate("dish_detail/$dishId")
                 }
             )
