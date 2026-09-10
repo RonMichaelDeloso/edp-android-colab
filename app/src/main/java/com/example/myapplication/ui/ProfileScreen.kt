@@ -25,8 +25,8 @@ fun ProfileScreen(postsVm: PostsViewModel, themeVm: ThemeViewModel) {
     ) {
         Icon(Icons.Default.AccountCircle, null, Modifier.size(96.dp))
         Spacer(Modifier.height(8.dp))
-        Text("Student Deloso", style = MaterialTheme.typography.headlineSmall)
-        Text("@sdeloso", style = MaterialTheme.typography.bodyMedium)
+        Text("Ron Deloso", style = MaterialTheme.typography.headlineSmall)
+        Text("rdeloso12002@liceo.edu.ph", style = MaterialTheme.typography.bodyMedium)
         Text("BSIT-3 · Liceo de Cagayan University",
              style = MaterialTheme.typography.bodySmall)
         Spacer(Modifier.height(16.dp))
